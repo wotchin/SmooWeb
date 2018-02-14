@@ -1,5 +1,8 @@
 package com.github.wotchin;
 
+import com.github.wotchin.request.HttpRequest;
+import com.github.wotchin.response.HttpResponse;
+
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -52,7 +55,7 @@ class HttpHandler {
 
             OutputStream out = socket.getOutputStream();
             if (data == null){
-                data = "HTTP/1.1 500 ERROR\r\n\r\n".getBytes();
+                data = "HTTP/1.1 500 Internal Server Error\r\n\r\n".getBytes();
             }
             out.write(data);
             socket.close();

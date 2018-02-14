@@ -1,4 +1,4 @@
-package com.github.wotchin;
+package com.github.wotchin.utils;
 
 import java.util.HashMap;
 import java.util.Map;

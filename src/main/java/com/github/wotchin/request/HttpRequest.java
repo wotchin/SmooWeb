@@ -1,4 +1,4 @@
-package com.github.wotchin;
+package com.github.wotchin.request;
 
 public class HttpRequest {
 
@@ -10,7 +10,7 @@ public class HttpRequest {
     private  String charset = null;
     private  String encoding = null;
     private  String connection = null;
-    private  String method = null;
+    private RequestMethod method = null;
     private  String uri = null;
     private  String protocol = null;
     private  String client = null;
@@ -37,7 +37,7 @@ public class HttpRequest {
     public String getConnection(){
         return connection;
     }
-    public String getMethod(){
+    public RequestMethod getMethod(){
         return method;
     }
     public String getUri(){
@@ -51,64 +51,62 @@ public class HttpRequest {
     }
 
 
-    HttpRequest(String s,String client){
+    public HttpRequest(String s, String client){
         this.client = client;
 
         if (s.startsWith("GET")) {
-            method = "Get";
-
+            //GET method
+            method = RequestMethod.GET;
             int index = s.indexOf("HTTP");
-//            System.out.println("index--->" + index);
             uri = s.substring(3 + 1, index - 1);// 用index-1可以去掉连接中的空格
-//            System.out.println("uri--->" + uri);
-
             protocol = s.substring(index);
-//            System.out.println("protocol---->" + protocol);
 
         } else if (s.startsWith("POST")) {
-            method = "POST";
-
+            //POST method
+            method = RequestMethod.POST;
             int index = s.indexOf("HTTP");
-//            System.out.println("index--->" + index);
-            uri = s.substring(3 + 1, index - 1);// 用index-1可以去掉连接中的空格
-//            System.out.println("uri--->" + uri);
-
+            uri = s.substring(3 + 1, index - 1);
             protocol = s.substring(index);
-//            System.out.println("protocol---->" + protocol);
 
-        } else if (s.startsWith("Accept:")) {
+        } else if (s.startsWith("PUT")){
+            //PUT method
+            method = RequestMethod.PUT;
+            int index = s.indexOf("HTTP");
+            uri = s.substring(3 + 1, index - 1);
+            protocol = s.substring(index);
+
+        } else if(s.startsWith("DELETE")){
+            //DELETE method
+            method = RequestMethod.DELETE;
+            int index = s.indexOf("HTTP");
+            uri = s.substring(3 + 1, index - 1);
+            protocol = s.substring(index);
+        }
+        else if (s.startsWith("Accept:")) {
             accept = s.substring("Accept:".length() + 1);
-//            System.out.println("accept--->" + accept);
-//            request.setAccept(accept);
 
         } else if (s.startsWith("User-Agent:")) {
             agent = s.substring("User-Agent:".length() + 1);
-//            System.out.println("agent--->" + agent);
-//            request.setAgent(agent);
+
 
         } else if (s.startsWith("Host:")) {
             host = s.substring("Host:".length() + 1);
-//            System.out.println("host--->" + host);
-//            request.setHost(host);
+
 
         } else if (s.startsWith("Accept-Language:")) {
             language = s.substring("Accept-Language:".length() + 1);
-//            System.out.println("language--->" + language);
-//            request.setLanguage(language);
+
 
         } else if (s.startsWith("Accept-Charset:")) {
             charset = s.substring("Accept-Charset:".length() + 1);
-//            System.out.println("charset--->" + charset);
-//            request.setCharset(charset);
+
         } else if (s.startsWith("Accept-Encoding:")) {
             encoding = s.substring("Accept-Encoding:".length() + 1);
-//            System.out.println("encoding--->" + encoding);
-//            request.setEncoding(encoding);
+
 
         } else if (s.startsWith("Connection:")) {
             connection = s.substring("Connection:".length() + 1);
-//            System.out.println("connection--->" + connection);
-//            request.setConnection(connection);
+
         }
     }
 }

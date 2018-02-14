@@ -1,4 +1,4 @@
-package com.github.wotchin;
+package com.github.wotchin.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

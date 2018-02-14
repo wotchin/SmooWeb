@@ -20,7 +20,7 @@ public class HttpServer {
         try {
             ServerSocket server = new ServerSocket(port, backlog, Inet4Address.getByName(address));
             ThreadPoolSingleton thread = ThreadPoolSingleton.getInstance(threadConcurrentNumber);
-            Map router = new ResponseAnnotationParsing().getAnnotation(event);
+            Map router = new RequestMapper().getAnnotation(event);
             RouterTemplate routerTemplate = (RouterTemplate) event.newInstance();
 
             while (true){
@@ -35,9 +35,6 @@ public class HttpServer {
             e.printStackTrace();
         }
     }
-
-
-
 
 
     public static class HttpServerBuilder{
@@ -84,15 +81,11 @@ public class HttpServer {
             return this;
         }
 
-        public HttpServer builder() throws Exception{
-            /*
+        public HttpServer builder() throws IllegalArgumentException{
             if (event == null)
-                throw new Exception("Need RouterTemplate parameter");
+                throw new IllegalArgumentException("Need RouterTemplate parameter");
             else
                 return new HttpServer(this);
-                */
-            assert event!=null:"Need RouterTemplate!";
-            return new HttpServer(this);
         }
     }
 }

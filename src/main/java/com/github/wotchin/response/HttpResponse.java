@@ -1,6 +1,5 @@
-package com.github.wotchin;
+package com.github.wotchin.response;
 
-import java.net.Socket;
 
 public final class HttpResponse {
 
@@ -8,7 +7,7 @@ public final class HttpResponse {
     private String head;
 
 
-    public HttpResponse(ResponseHead head,byte[] data) {
+    public HttpResponse(ResponseHeader head, byte[] data) {
 
         head.set("Content-Length",String.valueOf(data.length));
         this.head = head.getAll();
@@ -24,7 +23,7 @@ public final class HttpResponse {
 
 */
 
-    byte[] getData(){
+    public byte[] getData(){
 
         return byteMerger(head.getBytes(),data);
     }

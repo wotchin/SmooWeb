@@ -1,9 +1,12 @@
 package com.github.wotchin;
 
 
+import com.github.wotchin.request.HttpRequest;
+import com.github.wotchin.response.HttpResponse;
+
 public interface RouterTemplate {
 
-      HttpResponse homepage(HttpRequest head);
+      HttpResponse index(HttpRequest head);
 
       HttpResponse notFound(HttpRequest head);
 
