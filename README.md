@@ -1,4 +1,8 @@
 # SmooWeb
+
+|build|failed|
+|-----|------|
+
 ## 说明
 SmooWeb原名TinyHttp,是一种轻量级的，基于Java SE的Web框架；
 应用场景主要是微服务相关,主要面对并发事件的处理与响应。
