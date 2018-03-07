@@ -1,15 +1,12 @@
 package com.github.wotchin;
 
-
-import com.github.wotchin.request.HttpRequest;
-import com.github.wotchin.response.HttpResponse;
+import com.github.wotchin.request.Request;
+import com.github.wotchin.response.Response;
 
 public interface RouterTemplate {
 
-      HttpResponse index(HttpRequest head);
-
-      HttpResponse notFound(HttpRequest head);
-
-      HttpResponse serverError(HttpRequest head,String error);
+      void index(Request req,Response res);
+      void notFound(Request req,Response res);
+      void serverError(Request req,Response res);
 
 }

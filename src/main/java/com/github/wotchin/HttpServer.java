@@ -19,15 +19,18 @@ public class HttpServer {
         //initial
         try {
             ServerSocket server = new ServerSocket(port, backlog, Inet4Address.getByName(address));
-            ThreadPoolSingleton thread = ThreadPoolSingleton.getInstance(threadConcurrentNumber);
-            Map router = new RequestMapper().getAnnotation(event);
-            RouterTemplate routerTemplate = (RouterTemplate) event.newInstance();
-
+            ThreadPool thread = ThreadPool.getInstance(threadConcurrentNumber);
+            Map router = new RequestMapper().parseAnnotation(event);
+            RouterTemplate routerTemplate = (RouterTemplate) event.newInstance();//反射加载
+            //TODO:
+            //此处应该该为使用静态文件加载
             while (true){
                 Socket socket = server.accept();
                 thread.submit(()->{
                     System.out.println(socket.getLocalAddress().toString() +":"+ socket.getPort()); //Filter 留坑
                     new HttpHandler(socket,router, routerTemplate);
+                    //TODO:
+                    //此处有坑，内存消耗太大了，等待后续优化
                 });
             }
 

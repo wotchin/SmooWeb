@@ -3,27 +3,31 @@ package com.github.wotchin;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ThreadPoolSingleton {
+public class ThreadPool {
 
-    private static volatile ThreadPoolSingleton thread = null;
+    private static volatile ThreadPool thread = null;
     private ExecutorService service = null;
-    private ThreadPoolSingleton() {}
+    private static int threadNumber = Runtime.getRuntime().availableProcessors();
+    private ThreadPool() {}
 
-    public static ThreadPoolSingleton getInstance(int threadNumber){
+    public static ThreadPool getInstance(){
         if (thread == null){
-            synchronized (ThreadPoolSingleton.class){
+            synchronized (ThreadPool.class){
                 if (thread == null){
-                    thread = new ThreadPoolSingleton();
+                    thread = new ThreadPool();
                     if (threadNumber == 1)
-                        thread.service = Executors.newSingleThreadExecutor(); //异步
+                        thread.service = Executors.newSingleThreadExecutor(); //单一实例,适合CPU消耗型场景
                     else
                         thread.service = Executors.newFixedThreadPool(threadNumber); //手写一个线程池，留坑
                 }
             }
         }
         return thread;
-
     }
+
+    protected static ThreadPool getInstance(int threadNumber){
+       return getInstance(threadNumber);
+    };
 
     public void submit(Runnable task){
         thread.service.submit(task);

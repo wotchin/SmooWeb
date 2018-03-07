@@ -1,7 +1,9 @@
 package com.github.wotchin;
 
-import com.github.wotchin.request.HttpRequest;
+import com.github.wotchin.request.Request;
+import com.github.wotchin.request.RequestHeader;
 import com.github.wotchin.response.HttpResponse;
+import com.github.wotchin.response.Response;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -23,22 +25,23 @@ class HttpHandler {
                 sb.append(buff);
                 sb.append("\n");
             }
-//            new HttpRouter(new HttpRequest(sb.toString()),RouterTemplate,socket_info);  //是否应该是单例的？或者是 静态的呢？
 
             //先在此处写好处理代码，然后再决定是否进行类的拆分
-            HttpRequest head = new HttpRequest(sb.toString(),socket.getInetAddress().toString()+":"+socket.getPort());
-            byte []data = null;
-            String methodName = head.getUri().trim().split("[?]")[0];
+
+            Request req = new Request(sb.toString(),socket.getInputStream());
+            Response res = new Response();
+            RequestHeader header = req.getHeader();
+            String methodName = header.getUri().trim().split("[?]")[0];
             if (router.get(methodName)!=null)
             {
                 Method method = router.get(methodName);
                 try {
-                    HttpResponse hr = (HttpResponse)method.invoke(template,head);
+                    HttpResponse hr = (HttpResponse)method.invoke(template,header);
                     data = hr.getData();
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
-                        data = template.serverError(head,e.toString()).getData();
+                        data = template.serverError(header,e.toString()).getData();
                     }catch (Exception e1){
                         e1.printStackTrace();
                     }
@@ -47,7 +50,7 @@ class HttpHandler {
             else
             {
                 try {
-                    data = template.notFound(head).getData();
+                    data = template.notFound(header).getData();
                 }catch (Exception e){
                     e.printStackTrace();
                 }

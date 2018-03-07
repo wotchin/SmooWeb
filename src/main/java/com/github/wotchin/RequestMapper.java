@@ -9,7 +9,7 @@ import java.util.Map;
 
 class RequestMapper {
 
-    Map getAnnotation(Class<?> clazz) {
+    Map parseAnnotation(Class<?> clazz) {
         Map<String, Method> map = new HashMap<>();
         Method[] method = clazz.getDeclaredMethods();
         for (Method m  : method) {
@@ -24,6 +24,7 @@ class RequestMapper {
         }
         //TODO：正则解析形式
         //留坑，静态文件传输映射表还没有创建
+        //静态文件使用Nginx完成传输
         return map;
     }
 }
