@@ -1,8 +1,5 @@
 package com.github.wotchin;
 
-
-import com.github.wotchin.utils.TinyHttpUtil;
-
 import java.util.Map;
 
 public class Cookie {

@@ -3,7 +3,6 @@ package com.github.wotchin.request;
 import com.github.wotchin.Cookie;
 
 import java.io.InputStream;
-import java.net.Socket;
 
 public class Request {
     private RequestHeader header = null;

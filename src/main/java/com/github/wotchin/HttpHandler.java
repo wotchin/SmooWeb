@@ -29,14 +29,17 @@ class HttpHandler {
             //先在此处写好处理代码，然后再决定是否进行类的拆分
 
             Request req = new Request(sb.toString(),socket.getInputStream());
-            Response res = new Response();
+            Response res = new Response(socket.getOutputStream());
             RequestHeader header = req.getHeader();
-            String methodName = header.getUri().trim().split("[?]")[0];
+            String methodName = header.getUri().trim().split("[?]")[0]; //get url path
             if (router.get(methodName)!=null)
             {
                 Method method = router.get(methodName);
                 try {
+                    //此处应该改以下
                     HttpResponse hr = (HttpResponse)method.invoke(template,header);
+                    //todo:
+                    //此处之后应该改为单例模式，懒加载形式，缓存
                     data = hr.getData();
                 } catch (Exception e) {
                     e.printStackTrace();

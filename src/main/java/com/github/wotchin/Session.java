@@ -8,5 +8,6 @@ public class Session {
     }
 
     private Session() {
+        //Session 是一个带有超时功能的 WeakHashMap
     }
 }
