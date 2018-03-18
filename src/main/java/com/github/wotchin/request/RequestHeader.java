@@ -14,6 +14,7 @@ public class RequestHeader {
     private  String uri = null;
     private  String protocol = null;
     private  String client = null;
+    private  String cookie = null;
 
     public String getAccept(){
         return accept;
@@ -48,6 +49,7 @@ public class RequestHeader {
     public String getClientHost(){
         return client;
     }
+    public String getCookie(){return cookie;}
 
 
     public RequestHeader(String s){
@@ -105,6 +107,8 @@ public class RequestHeader {
         } else if (s.startsWith("Connection:")) {
             connection = s.substring("Connection:".length() + 1);
 
+        } else if (s.startsWith("Cookie:")){
+            cookie = s.substring("Cookie:".length() + 1);
         }
     }
 }

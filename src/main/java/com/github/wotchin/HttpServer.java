@@ -19,7 +19,7 @@ public class HttpServer {
         //initial
         try {
             ServerSocket server = new ServerSocket(port, backlog, Inet4Address.getByName(address));
-            ThreadPool thread = ThreadPool.getInstance(threadConcurrentNumber);
+            ThreadPool thread = ThreadPool.getInstance();
             Map router = new RequestMapper().parseAnnotation(event);
             RouterTemplate routerTemplate = (RouterTemplate) event.newInstance();//反射加载
             //TODO:

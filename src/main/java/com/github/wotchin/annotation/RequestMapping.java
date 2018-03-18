@@ -1,5 +1,7 @@
 package com.github.wotchin.annotation;
 import com.github.wotchin.request.RequestMethod;
+import com.sun.istack.internal.Nullable;
+
 import java.lang.annotation.*;
 
 /**
@@ -16,6 +18,6 @@ import java.lang.annotation.*;
 
 public @interface RequestMapping {
     String value();
-    RequestMethod method() default RequestMethod.GET;
+    @Nullable RequestMethod method() default RequestMethod.GET;
 }
 

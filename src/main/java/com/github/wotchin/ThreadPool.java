@@ -25,9 +25,7 @@ public class ThreadPool {
         return thread;
     }
 
-    protected static ThreadPool getInstance(int threadNumber){
-       return getInstance(threadNumber);
-    };
+
 
     public void submit(Runnable task){
         thread.service.submit(task);

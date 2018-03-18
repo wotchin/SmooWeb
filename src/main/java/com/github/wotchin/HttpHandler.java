@@ -31,42 +31,40 @@ class HttpHandler {
             Request req = new Request(sb.toString(),socket.getInputStream());
             Response res = new Response(socket.getOutputStream());
             RequestHeader header = req.getHeader();
-            String methodName = header.getUri().trim().split("[?]")[0]; //get url path
-            if (router.get(methodName)!=null)
+            String requestUrl = header.getUri().trim().split("[?]")[0]; //get url path
+            if (router.get(requestUrl)!=null)
             {
-                Method method = router.get(methodName);
+                Method method = router.get(requestUrl);
                 try {
                     //此处应该改以下
-                    HttpResponse hr = (HttpResponse)method.invoke(template,header);
+                    //HttpResponse hr = (HttpResponse)method.invoke(template,header);
+                    method.invoke(template,req,res);
                     //todo:
                     //此处之后应该改为单例模式，懒加载形式，缓存
-                    data = hr.getData();
+                    //data = hr.getData();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    try {
-                        data = template.serverError(header,e.toString()).getData();
-                    }catch (Exception e1){
-                        e1.printStackTrace();
-                    }
+
+                    template.serverError(req,res);
                 }
             }
             else
             {
                 try {
-                    data = template.notFound(header).getData();
+                    template.notFound(req,res);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
 
-            OutputStream out = socket.getOutputStream();
-            if (data == null){
-                data = "HTTP/1.1 500 Internal Server Error\r\n\r\n".getBytes();
-            }
-            out.write(data);
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try{
+                socket.close();
+            }catch (IOException e){
+                //防止内存泄露
+            }
         }
     }
 }

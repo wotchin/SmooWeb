@@ -10,7 +10,7 @@ public final class HttpResponse {
     public HttpResponse(ResponseHeader head, byte[] data) {
 
         head.set("Content-Length",String.valueOf(data.length));
-        this.head = head.getAll();
+        this.head = head.toString();
         this.data = data;
     }
 
