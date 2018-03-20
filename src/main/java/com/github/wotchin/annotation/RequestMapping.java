@@ -17,7 +17,7 @@ import java.lang.annotation.*;
 
 
 public @interface RequestMapping {
-    String value();
+    String path();
     @Nullable RequestMethod method() default RequestMethod.GET;
 }
 

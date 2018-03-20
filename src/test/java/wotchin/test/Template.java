@@ -4,11 +4,8 @@ import com.github.wotchin.*;
 import com.github.wotchin.annotation.Controller;
 import com.github.wotchin.annotation.RequestMapping;
 import com.github.wotchin.request.Request;
-import com.github.wotchin.request.RequestHeader;
-import com.github.wotchin.response.HttpResponse;
-import com.github.wotchin.response.HttpResponseBuilder;
+import com.github.wotchin.request.RequestMethod;
 import com.github.wotchin.response.Response;
-import com.github.wotchin.response.ResponseHeaderFactory;
 
 @Controller
 public class Template implements RouterTemplate {
@@ -16,7 +13,7 @@ public class Template implements RouterTemplate {
 
     @Override
     public void notFound(Request req, Response res) {
-        res.end("Hello World");
+        res.end("Not Found!");
     }
 
     @Override
@@ -24,9 +21,9 @@ public class Template implements RouterTemplate {
         res.end("error");
     }
 
-    @RequestMapping(value = "/")
+    @RequestMapping(path = "/",method = RequestMethod.POST)
     public void index(Request req,Response res){
-        res.end("fuck");
+        res.end("It works.");
     }
 
 }
