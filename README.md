@@ -1,6 +1,7 @@
 # SmooWeb
 
 |build|failed|
+|state|developing|
 |-----|------|
 
 ## 说明
@@ -10,8 +11,8 @@ SmooWeb原名TinyHttp,是一种轻量级的，基于Java SE的Web框架；
 * 基于线程池以及NIO技术;
 * 使用注解的方式路由;
 * 支持RESTful风格;
-* 提供多种渲染机制,包括基于前端库的AJAX异步渲染和模板(todo)方式。
 * 配合nginx优秀的静态文件下载效率,实现动静分离机制;
+
 
 ## TODO:
 1. Session
