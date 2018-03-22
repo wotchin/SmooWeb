@@ -2,7 +2,6 @@ package com.github.wotchin;
 
 import com.github.wotchin.request.Request;
 import com.github.wotchin.request.RequestHeader;
-import com.github.wotchin.response.HttpResponse;
 import com.github.wotchin.response.Response;
 
 import java.io.*;
@@ -11,7 +10,7 @@ import java.net.Socket;
 import java.util.Map;
 
 class HttpHandler {
-    HttpHandler(Socket socket, Map<String,Method> router , RouterTemplate template) {
+    HttpHandler(Socket socket, Map<String,Method> router , WebController template) {
         //customer
         //消费来自HttpServer的socket，进行HTTP协议的解析
 
@@ -36,8 +35,7 @@ class HttpHandler {
             {
                 Method method = router.get(requestUrl);
                 try {
-                    //此处应该改以下
-                    //HttpResponse hr = (HttpResponse)method.invoke(template,header);
+                    //此处应该改一下
                     method.invoke(template,req,res);
                     //todo:
                     //此处之后应该改为单例模式，懒加载形式，缓存

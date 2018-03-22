@@ -7,7 +7,7 @@ import com.sun.istack.internal.Nullable;
  * @author wotchin
  * This class is a abstract of http response head
  * */
-class ResponseHeader {
+public class ResponseHeader {
     private StringBuilder sb = new StringBuilder();
     //todo:
     //应该改成Map替代sb.

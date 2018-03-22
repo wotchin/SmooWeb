@@ -8,7 +8,7 @@ import com.github.wotchin.request.RequestMethod;
 import com.github.wotchin.response.Response;
 
 @Controller
-public class Template implements RouterTemplate {
+public class Template implements WebController {
 
 
     @Override
@@ -23,7 +23,11 @@ public class Template implements RouterTemplate {
 
     @RequestMapping(path = "/",method = RequestMethod.POST)
     public void index(Request req,Response res){
-        res.end("It works.");
+        if(req.getHeader().getCookie() == null){
+            res.end("No cookies");
+        }else{
+            res.end(req.getHeader().getCookie());
+        }
     }
 
 }

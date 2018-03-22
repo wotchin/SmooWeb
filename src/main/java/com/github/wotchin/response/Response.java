@@ -72,7 +72,7 @@ public class Response {
 
 
     public ResponseHeader getHeader(){
-        return header;//返回一个引用
+        return this.header;//返回一个引用
     }
 
     public OutputStream getStream(){

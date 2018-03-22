@@ -21,14 +21,14 @@ public class HttpServer {
             ServerSocket server = new ServerSocket(port, backlog, Inet4Address.getByName(address));
             ThreadPool thread = ThreadPool.getInstance();
             Map router = new RequestMapper().parseAnnotation(event);
-            RouterTemplate routerTemplate = (RouterTemplate) event.newInstance();//反射加载
+            WebController webControllerTemplate = (WebController) event.newInstance();//反射加载
             //TODO:
             //此处应该该为使用静态文件加载
             while (true){
                 Socket socket = server.accept();
                 thread.submit(()->{
                     System.out.println(socket.getLocalAddress().toString() +":"+ socket.getPort()); //Filter 留坑
-                    new HttpHandler(socket,router, routerTemplate);
+                    new HttpHandler(socket,router, webControllerTemplate);
                     //TODO:
                     //此处有坑，内存消耗太大了，等待后续优化
                 });
@@ -86,7 +86,7 @@ public class HttpServer {
 
         public HttpServer builder() throws IllegalArgumentException{
             if (event == null)
-                throw new IllegalArgumentException("Need RouterTemplate parameter");
+                throw new IllegalArgumentException("Need WebController parameter");
             else
                 return new HttpServer(this);
         }
