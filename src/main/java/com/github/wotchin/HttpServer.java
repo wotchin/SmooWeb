@@ -54,7 +54,7 @@ public class HttpServer {
             return this;
         }
 
-        public HttpServerBuilder setResponseRouterTemplate(Class<?> event){
+        public HttpServerBuilder setControllers(Class<?> event){
             this.event = event;
             return this;
         }
@@ -85,8 +85,9 @@ public class HttpServer {
         }
 
         public HttpServer builder() throws IllegalArgumentException{
-            if (event == null)
+            if (event == null){
                 throw new IllegalArgumentException("Need WebController parameter");
+            }
             else
                 return new HttpServer(this);
         }
