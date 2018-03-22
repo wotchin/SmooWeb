@@ -24,7 +24,8 @@ ab -c 10 -t 100 http://127.0.0.1:9000/
 ```
 测试结果:
 
->Benchmarking 127.0.0.1 (be patient)
+```
+Benchmarking 127.0.0.1 (be patient)
 Completed 5000 requests
 Completed 10000 requests
 Completed 15000 requests
@@ -73,11 +74,12 @@ Percentage of the requests served within a certain time (ms)
   98%      2
   99%      2
  100%   1030 (longest request)
-
+```
 
 对比Node.js的结果是:
 
->Benchmarking 127.0.0.1 (be patient)
+```
+Benchmarking 127.0.0.1 (be patient)
 Completed 5000 requests
 Completed 10000 requests
 Completed 15000 requests
@@ -127,7 +129,7 @@ Percentage of the requests served within a certain time (ms)
   98%      4
   99%      5
  100%     17 (longest request)
-
+```
 
 而面向并发编程的Erlang写成的web框架mochiweb的QPS仅为3000.
 
