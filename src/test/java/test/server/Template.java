@@ -1,4 +1,4 @@
-package wotchin.test;
+package test.server;
 
 import com.github.wotchin.*;
 import com.github.wotchin.annotation.Controller;

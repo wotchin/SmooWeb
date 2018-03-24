@@ -1,4 +1,4 @@
-package wotchin.test;
+package test.server;
 
 
 import com.github.wotchin.*;
@@ -7,8 +7,7 @@ public class ServerTest {
 
     public static void main(String[] args) {
         try {
-            new HttpServer
-                    .HttpServerBuilder()
+            new HttpServerBuilder()
                     .port(9000)
                     .setControllers(Template.class)
                     .builder();

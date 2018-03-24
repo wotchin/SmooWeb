@@ -1,35 +1,48 @@
 package com.github.wotchin;
 
-import java.util.Map;
+import java.util.Collection;
+import java.util.HashMap;
 
-public class Cookie {
-   private Map<String,String> cookie = null;
+public class Cookie extends HashMap<String,String> {
 
    public Cookie(String s){
-      //TODO:COOKIE
        if (s != null){
-           String []cookies = s.split("; ");
+           String []cookies = s.trim().split("[;]");
            for(String it : cookies){
-               String []keyAndValue = it.split("=");
+               String []keyAndValue = it.split("[=]");
                if(keyAndValue.length == 2){
-                   cookie.put(keyAndValue[0],keyAndValue[1]);
+                   put(keyAndValue[0],keyAndValue[1]);
                }
            }
        }
    }
 
-   public String put(String key , String value){
-      return cookie.put(key,value);
+   public Cookie() {}
+
+
+   public void put(String key,Number value){
+       put(key, value.toString());
    }
 
-   public String get(String key){
-      return cookie.get(key);
+   public static Cookie parse(String s){
+       return new Cookie(s);
    }
-
 
 
     @Override
-    public String toString() {
-        return cookie.toString();
+    public String toString(){
+       Collection<String> keys = keySet();
+       StringBuilder sb = new StringBuilder();
+        for (String key :
+                keys) {
+            sb.append(key)
+                    .append("=")
+                    .append(get(key))
+                    .append(";");
+        }
+        if(sb.length() > 0){
+            sb.deleteCharAt(sb.length() - 1); // delete the last ';'
+        }
+        return sb.toString();
     }
 }

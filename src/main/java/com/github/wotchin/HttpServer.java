@@ -6,9 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 
-public class HttpServer {
+class HttpServer {
 
-    private HttpServer(HttpServerBuilder builder){
+    HttpServer(HttpServerBuilder builder){
         String address = builder.address;
         int port = builder.port;
         int backlog = builder.backlog;
@@ -39,57 +39,4 @@ public class HttpServer {
         }
     }
 
-
-    public static class HttpServerBuilder{
-        private String address = "0.0.0.0";
-        private int port = 8888;
-        private int threadQueueLength = 100;
-        private int threadConcurrentNumber = 8;
-        private int backlog = 5;
-        private boolean isStdout = false;
-        private Class event = null;
-
-        public HttpServerBuilder address(String address){
-            this.address = address;
-            return this;
-        }
-
-        public HttpServerBuilder setControllers(Class<?> event){
-            this.event = event;
-            return this;
-        }
-
-        public HttpServerBuilder isStdout(boolean isStdout) {
-            this.isStdout = isStdout;
-            return this;
-        }
-
-        public HttpServerBuilder port(int port){
-            this.port = port;
-            return this;
-        }
-
-        public HttpServerBuilder threadQueueLength(int length){
-            this.threadQueueLength = length;
-            return this;
-        }
-
-        public HttpServerBuilder threadConcurrentNumber(int number){
-            this.threadConcurrentNumber = number;
-            return this;
-        }
-
-        public HttpServerBuilder backlog(int backlog){
-            this.backlog = backlog;
-            return this;
-        }
-
-        public HttpServer builder() throws IllegalArgumentException{
-            if (event == null){
-                throw new IllegalArgumentException("Need WebController parameter");
-            }
-            else
-                return new HttpServer(this);
-        }
-    }
 }
