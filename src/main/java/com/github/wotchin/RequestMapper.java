@@ -4,7 +4,6 @@ package com.github.wotchin;
 import com.github.wotchin.annotation.RequestMapping;
 import com.github.wotchin.request.RequestMethod;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,7 @@ class RequestMapper {
         for (Method m  : method) {
             if (m.isAnnotationPresent(RequestMapping.class)) {
                 RequestMapping requestMapping =  m.getAnnotation(RequestMapping.class);
-                String path = requestMapping.path();
+                String path = requestMapping.value();
                 RequestMethod requestMethod = requestMapping.method();
                 map.put(path,m); //创建映射关联
                 System.out.println(m.getName() + " " + path + " " + requestMethod.toString() );

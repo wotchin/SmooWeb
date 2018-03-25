@@ -14,27 +14,37 @@ class HttpServer {
         int backlog = builder.backlog;
         int threadConcurrentNumber = builder.threadConcurrentNumber;
         int threadQueueLength = builder.threadQueueLength; //手写线程池 留坑
-        Class event = builder.event;
+        Class event = builder.event; //todo
 
+        ThreadPool thread = ThreadPool.getInstance();
+        Map router = new RequestMapper().parseAnnotation(event);
+        WebController controllers = null;
+        try {
+            controllers = (WebController) event.newInstance();//反射加载
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if(controllers == null){
+            throw new IllegalArgumentException("No WebControllers!");
+        }
         //initial
         try {
             ServerSocket server = new ServerSocket(port, backlog, Inet4Address.getByName(address));
-            ThreadPool thread = ThreadPool.getInstance();
-            Map router = new RequestMapper().parseAnnotation(event);
-            WebController webControllerTemplate = (WebController) event.newInstance();//反射加载
             //TODO:
-            //此处应该该为使用静态文件加载
             while (true){
                 Socket socket = server.accept();
+                WebController finalControllers = controllers;
                 thread.submit(()->{
-                    System.out.println(socket.getLocalAddress().toString() +":"+ socket.getPort()); //Filter 留坑
-                    new HttpHandler(socket,router, webControllerTemplate);
+                    System.out.println(socket.getLocalAddress().toString() +" -> "+ socket.getPort());
+                    new HttpHandler(socket,router, finalControllers);
+                    System.out.println("done");
                     //TODO:
                     //此处有坑，内存消耗太大了，等待后续优化
                 });
             }
 
-        } catch (IOException | InstantiationException | IllegalAccessException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

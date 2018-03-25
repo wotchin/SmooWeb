@@ -52,5 +52,11 @@ public class HttpServerBuilder{
             return new HttpServer(this);
         }
     }
+
+
+    //todo:
+    public static HttpServer parseJSON(){
+        return null;
+    }
 }
 

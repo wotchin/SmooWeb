@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.Map;
 
 class HttpHandler {
-    HttpHandler(Socket socket, Map<String,Method> router , WebController template) {
+    HttpHandler(Socket socket) {
         //customer
         //消费来自HttpServer的socket，进行HTTP协议的解析
 
@@ -25,17 +25,19 @@ class HttpHandler {
                 sb.append("\n");
             }
 
-            //先在此处写好处理代码，然后再决定是否进行类的拆分
 
             Request req = new Request(sb.toString(),socket.getInputStream());
             Response res = new Response(socket.getOutputStream());
             RequestHeader header = req.getHeader();
-            String requestUrl = header.getUri().trim().split("[?]")[0]; //get url path
-            if (router.get(requestUrl)!=null)
+
+            Router router = Router.getInstance();
+
+            final Method method;
+
+            if ((method = router.getMethod(header.getUri(),header.getMethod()))!=null)
             {
-                Method method = router.get(requestUrl);
                 try {
-                    //此处应该改一下
+
                     method.invoke(template,req,res);
                     //todo:
                     //此处之后应该改为单例模式，懒加载形式，缓存
@@ -55,13 +57,14 @@ class HttpHandler {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try{
                 socket.close();
             }catch (IOException e){
                 //防止内存泄露
+                e.printStackTrace();
             }
         }
     }

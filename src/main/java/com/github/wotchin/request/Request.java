@@ -21,7 +21,4 @@ public class Request {
         return this.body;
     }
 
-    public Cookie getCookies(){
-        return new Cookie(header.getCookie());
-    }
 }

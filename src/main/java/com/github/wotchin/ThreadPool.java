@@ -30,11 +30,4 @@ public class ThreadPool {
     public void submit(Runnable task){
         thread.service.submit(task);
     }
-
-    private long test(){
-        //有坑，标记
-        if (service != null)
-            return service.hashCode();
-        else return 0;
-    }
 }

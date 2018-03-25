@@ -11,7 +11,10 @@ public class Cookie extends HashMap<String,String> {
            for(String it : cookies){
                String []keyAndValue = it.split("[=]");
                if(keyAndValue.length == 2){
-                   put(keyAndValue[0],keyAndValue[1]);
+                   put(keyAndValue[0].trim(),keyAndValue[1].trim());
+               }else if(keyAndValue.length > 2){
+                   String key = keyAndValue[0];
+                   put(key,it.substring(key.length() + 1,it.length()));
                }
            }
        }

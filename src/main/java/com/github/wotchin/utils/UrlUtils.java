@@ -3,7 +3,7 @@ package com.github.wotchin.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public  class  TinyHttpUtil {
+public  class UrlUtils {
 
     private static String TruncateUrlPage(String strURL) {
         String strAllParam = null;
@@ -24,10 +24,10 @@ public  class  TinyHttpUtil {
         return strAllParam;
     }
 
-    public static Map<String,String> parseRequestParameter(String string){
+    public static Map<String,String> parseQuery(String url){
         Map<String,String> map = new HashMap<>();
         String[] arrSplit=null;
-        String strUrlParam=TruncateUrlPage(string);
+        String strUrlParam=TruncateUrlPage(url);
         if(strUrlParam==null)
         {
             return map;

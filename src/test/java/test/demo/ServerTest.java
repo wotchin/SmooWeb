@@ -1,4 +1,4 @@
-package test.server;
+package test.demo;
 
 
 import com.github.wotchin.*;
@@ -15,5 +15,4 @@ public class ServerTest {
             e.printStackTrace();
         }
     }
-
 }
