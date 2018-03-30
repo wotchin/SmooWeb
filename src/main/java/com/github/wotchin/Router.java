@@ -8,9 +8,7 @@ import java.util.Map;
 
 public class Router {
     private static Router ourInstance = new Router();
-    public static Router getInstance() {
-        return ourInstance;
-    }
+    private UnusualEvent unusualEvent = null;
 
     /**
      * 分桶存储:
@@ -28,6 +26,9 @@ public class Router {
     private Router() {
     }
 
+    public static Router getInstance() {
+        return ourInstance;
+    }
 
     public Method getMethod(URI uri,RequestMethod requestMethod){
         switch (requestMethod){
@@ -37,7 +38,7 @@ public class Router {
                 }else {
                     Method method = methodGet.get(uri);
                     if(method == null){
-                        methodGet.get()
+                        methodGet.get(uri);
                     }
                     return method;
                 }
@@ -104,5 +105,13 @@ public class Router {
                 break;
             }
         }
+    }
+
+    public UnusualEvent getUnusualEvent(){
+        return unusualEvent;
+    }
+
+    public void setUnusualEvent(UnusualEvent event){
+        this.unusualEvent = event;
     }
 }

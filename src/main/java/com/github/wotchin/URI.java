@@ -10,16 +10,23 @@ public class URI {
     private String path = null;
     private String query = null;
 
+
     public URI(String uri){
-        this.raw = uri.trim().toLowerCase();
-        if(!this.raw.startsWith("/")){
-            this.raw = "/" + this.raw;
+        if(uri != null){
+            this.raw = uri.trim().toLowerCase();
+            if(!this.raw.startsWith("/")){
+                this.raw = "/" + this.raw;
+            }
         }
     }
 
     public String getPath(){
-        int index = this.raw.lastIndexOf("/");
-        return raw.substring(0,index);
+        if(this.raw != null){
+            int index = this.raw.lastIndexOf("/");
+            return raw.substring(0,index);
+        }else {
+            return null;
+        }
     }
 
 
@@ -30,15 +37,19 @@ public class URI {
 
     @Override
     public String toString() {
-        int index = this.raw.lastIndexOf("?");
-        String uri = null;
-        if(index < 0){
-            uri = this.raw;
+        if(this.raw != null){
+            int index = this.raw.lastIndexOf("?");
+            String uri = null;
+            if(index < 0){
+                uri = this.raw;
+            }else {
+                uri = raw.substring(0, index);
+            }
+            return uri.replaceAll("/<(.*?)>","/<parameter>");
+            //将正则的形式统一化
         }else {
-            uri = raw.substring(0, index);
+            return "";
         }
-        return uri.replaceAll("/<(.*?)>","/<parameter>");
-        //将正则的形式统一化
     }
 
     public String getFullString() {

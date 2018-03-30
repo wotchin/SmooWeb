@@ -34,11 +34,9 @@ class HttpServer {
             //TODO:
             while (true){
                 Socket socket = server.accept();
-                WebController finalControllers = controllers;
                 thread.submit(()->{
                     System.out.println(socket.getLocalAddress().toString() +" -> "+ socket.getPort());
-                    new HttpHandler(socket,router, finalControllers);
-                    System.out.println("done");
+                    new HttpHandler(socket);
                     //TODO:
                     //此处有坑，内存消耗太大了，等待后续优化
                 });

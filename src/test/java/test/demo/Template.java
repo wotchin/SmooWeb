@@ -11,16 +11,6 @@ import com.github.wotchin.response.Response;
 public class Template implements WebController {
 
 
-    @Override
-    public void notFound(Request req, Response res) {
-        res.end("Not Found!");
-    }
-
-    @Override
-    public void serverError(Request req, Response res) {
-        res.end("error");
-    }
-
     @RequestMapping(value = "/",method = RequestMethod.POST)
     public void index(Request req,Response res){
         if(req.getHeader().getCookie() == null){

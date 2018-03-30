@@ -1,44 +1,62 @@
 package com.github.wotchin.response;
 
-
-import com.sun.istack.internal.Nullable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 /**
  * @author wotchin
  * This class is a abstract of http response head
  * */
-public class ResponseHeader {
-    private StringBuilder sb = new StringBuilder();
-    //todo:
-    //应该改成Map替代sb.
+public class ResponseHeader extends HashMap<String,String>{
+
+    private StateCode.KeyAndValuePair status = null;
+
     ResponseHeader(){
-
+        super(8);
+        put("Server","SmooWeb/1.0");
+        //todo: Keep-Alive
+        put("Connection","closed");
+        Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime();
+        //todo:format?
+        put("Date",date.toString());
     };
+
+    public void set(String name,Number value){
+        set(name,value.toString());
+    }
+
     public void set(String name,String value){
-        sb.append(name);
-        sb.append(":");
-        sb.append(value);
-        sb.append("\r\n");
+        put(name,value);
     }
 
-    public void addLine(String line){
-        sb.append(line);
-        sb.append("\r\n");
+    public void setContentType(ContentType type){
+        put("Content-Type",type.toString());
     }
 
-    public void setStatecode(int statecode, @Nullable String name){
-        if(name == null)
-            name = "OK";
-        sb.append("HTTP/1.1 ")
-                .append(statecode)
-                .append(" ")
-                .append(name)
-                .append("\r\n");
+    public void setStateCode(StateCode statecode){
+        status = statecode.getStateCode();
+    }
+
+    public void setStateCode(int stateCode){
+        status = StateCode.search(stateCode);
     }
 
     @Override
     public String toString() {
-        return sb.toString() + "\r\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("HTTP/1.1 ").append(status.key).append(" ").append(status.value).append("\r\n");
+
+        for(String key : keySet()){
+            sb.append(key)
+              .append(": ")
+              .append(get(key))
+              .append("\r\n");
+        }
+        sb.append("\r\n");
+
+        return sb.toString();
     }
 
 }

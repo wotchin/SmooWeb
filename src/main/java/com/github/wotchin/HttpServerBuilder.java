@@ -2,7 +2,7 @@ package com.github.wotchin;
 
 public class HttpServerBuilder{
     String address = "0.0.0.0";
-    int port = 8888;
+    int port = 9000;
     int threadQueueLength = 100;
     int threadConcurrentNumber = 8;
     int backlog = 5;
@@ -48,9 +48,16 @@ public class HttpServerBuilder{
         if (event == null){
             throw new IllegalArgumentException("Need parameter");
         }
-        else{
-            return new HttpServer(this);
+        UnusualEvent unusualEvent = Router.getInstance().getUnusualEvent();
+        if (unusualEvent == null){
+            Router.getInstance().setUnusualEvent(new SimpleUnusualEvent());
         }
+            return new HttpServer(this);
+    }
+
+    public HttpServerBuilder setUnusualEvent(UnusualEvent event){
+        Router.getInstance().setUnusualEvent(event);
+        return this;
     }
 
 

@@ -15,7 +15,7 @@ public class RequestHeader extends HashMap<String,String>{
 
 
     public RequestHeader(String header){
-
+        super(8);
         this.header = header;
         String []array = header.split("\r\n");
         if(array.length  <= 2){
@@ -66,6 +66,10 @@ public class RequestHeader extends HashMap<String,String>{
 
     public URI getUri() {
         return new URI(this.uri);
+    }
+
+    public String getUrl(){
+        return get("Host") + this.uri;
     }
 
     public String getProtocol() {

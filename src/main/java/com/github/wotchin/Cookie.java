@@ -20,7 +20,7 @@ public class Cookie extends HashMap<String,String> {
        }
    }
 
-   public Cookie() {}
+   public Cookie() {super();}
 
 
    public void put(String key,Number value){

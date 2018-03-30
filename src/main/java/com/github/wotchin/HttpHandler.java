@@ -20,9 +20,13 @@ class HttpHandler {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String buff;
             StringBuilder sb = new StringBuilder();
-            while ((buff = reader.readLine()).length() != 0){
-                sb.append(buff);
-                sb.append("\n");
+            while ((buff = reader.readLine()) != null){
+                if(buff.length() > 0){
+                    sb.append(buff);
+                    sb.append("\n");
+                }else{
+                    break;
+                }
             }
 
 
@@ -31,30 +35,28 @@ class HttpHandler {
             RequestHeader header = req.getHeader();
 
             Router router = Router.getInstance();
+            UnusualEvent unusualEvent = router.getUnusualEvent();
+            Method method;
+            URI uri = header.getUri();
+            if(uri != null){
+                if ((method = router.getMethod(uri,header.getMethod()))!=null)
+                {
+                    try {
+                        method.invoke(unusualEvent,req,res);
+                        //todo:
+                        //此处之后应该改为单例模式，懒加载形式，缓存
+                    } catch (Exception e) {
+                        e.printStackTrace();
 
-            final Method method;
-
-            if ((method = router.getMethod(header.getUri(),header.getMethod()))!=null)
-            {
-                try {
-
-                    method.invoke(template,req,res);
-                    //todo:
-                    //此处之后应该改为单例模式，懒加载形式，缓存
-                    //data = hr.getData();
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    template.serverError(req,res);
+                        unusualEvent.internalServerError(req,res);
+                    }
                 }
-            }
-            else
-            {
-                try {
-                    template.notFound(req,res);
-                }catch (Exception e){
-                    e.printStackTrace();
+                else
+                {
+                    unusualEvent.notFound(req,res);
                 }
+            }else {
+                unusualEvent.badRequest(req,res);
             }
 
         } catch (Exception e) {
