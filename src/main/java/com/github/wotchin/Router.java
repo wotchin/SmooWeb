@@ -2,8 +2,9 @@ package com.github.wotchin;
 
 import com.github.wotchin.request.RequestMethod;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Router {
@@ -18,10 +19,10 @@ public class Router {
      *
      * */
 
-    private Map<URI,Method> methodGet = null;
-    private Map<URI,Method> methodPost = null;
-    private Map<URI,Method> methodDelete = null;
-    private Map<URI,Method> methodPut = null;
+    private Map<URI,Object[]> methodGet = null;
+    private Map<URI,Object[]> methodPost = null;
+    private Map<URI,Object[]> methodDelete = null;
+    private Map<URI,Object[]> methodPut = null;
 
     private Router() {
     }
@@ -30,17 +31,24 @@ public class Router {
         return ourInstance;
     }
 
-    public Method getMethod(URI uri,RequestMethod requestMethod){
+    private List<Object> instances = new LinkedList<>();
+
+    public Object putInstance(Object object){
+        instances.add(object);
+        return object;
+    }
+
+    public Object[] getMethod(URI uri,RequestMethod requestMethod){
         switch (requestMethod){
             case GET:{
                 if(methodGet == null){
                     return null;
                 }else {
-                    Method method = methodGet.get(uri);
-                    if(method == null){
+                    Object[] objects = methodGet.get(uri);
+                    if(objects == null){
                         methodGet.get(uri);
                     }
-                    return method;
+                    return objects;
                 }
 
             }
@@ -74,34 +82,36 @@ public class Router {
     //todo:
     //正则怎么处理?是用树还是怎么办?
 
-    public void putMethod(URI uri,RequestMethod requestMethod ,Method method){
+    //todo:
+    //Need instance
+    public void putMethod(URI uri,RequestMethod requestMethod ,Object[] objects){
         switch (requestMethod){
             case GET:{
                 if(methodGet == null){
                     methodGet = new HashMap<>();
                 }
-                methodGet.put(uri,method);
+                methodGet.put(uri,objects);
                 break;
             }
             case POST:{
                 if(methodPost == null){
                     methodPost = new HashMap<>();
                 }
-                methodPost.put(uri,method);
+                methodPost.put(uri,objects);
                 break;
             }
             case PUT:{
                 if(methodPut == null){
                     methodPut = new HashMap<>();
                 }
-                methodPut.put(uri,method);
+                methodPut.put(uri,objects);
                 break;
             }
             case DELETE:{
                 if(methodDelete == null){
                     methodDelete = new HashMap<>();
                 }
-                methodDelete.put(uri,method);
+                methodDelete.put(uri,objects);
                 break;
             }
         }

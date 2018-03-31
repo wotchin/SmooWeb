@@ -36,13 +36,15 @@ class HttpHandler {
 
             Router router = Router.getInstance();
             UnusualEvent unusualEvent = router.getUnusualEvent();
-            Method method;
+            Object[] objects;
             URI uri = header.getUri();
             if(uri != null){
-                if ((method = router.getMethod(uri,header.getMethod()))!=null)
+                if ((objects = router.getMethod(uri,header.getMethod()))!=null)
                 {
                     try {
-                        method.invoke(unusualEvent,req,res);
+
+                        //((Method)objects[1]).invoke(objects[0],req,res);
+                        ((Method)objects[1]).invoke(((Class)(objects[0])).newInstance(),req,res);
                         //todo:
                         //此处之后应该改为单例模式，懒加载形式，缓存
                     } catch (Exception e) {

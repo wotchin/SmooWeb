@@ -1,9 +1,8 @@
 package com.github.wotchin.request;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.Map;
 
 public class RequestBody {
 
@@ -12,19 +11,18 @@ public class RequestBody {
         this.in = in;
     }
 
-    public InputStream getStream(){
-        return this.in;
-    }
-
-    public byte[] getBytes() throws IOException{
-        ByteArrayOutputStream bulk = new ByteArrayOutputStream();
-        byte[] buff = new byte[100];
-        int len = 0;
-        while ((len = in.read(buff,0,100))>0){
-            bulk.write(buff,0,len);
+    public Map<String,String> getValue() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String line = br.readLine();
+        StringBuilder sb = new StringBuilder();
+        while (line != null){
+           sb.append(line);
         }
-        return bulk.toByteArray();
+
     }
 
+    public byte[] getFile(){
+        //NIO
+    }
 
 }

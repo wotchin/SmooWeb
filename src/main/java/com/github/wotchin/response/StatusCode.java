@@ -2,7 +2,7 @@ package com.github.wotchin.response;
 
 import java.util.HashMap;
 
-public class StateCode {
+public class StatusCode {
 
     private final static HashMap<Integer,String> MAP = new HashMap<>(64);
     static {
@@ -57,12 +57,12 @@ public class StateCode {
 
     private KeyAndValuePair status = new KeyAndValuePair();
 
-    public StateCode(int stateCode){
+    public StatusCode(int stateCode){
         status.key = stateCode;
         status.value = MAP.get(stateCode);
     }
 
-    public StateCode(int stateCode,String content){
+    public StatusCode(int stateCode, String content){
         status.key = stateCode;
         status.value = content;
     }

@@ -17,7 +17,7 @@ class HttpServer {
         Class event = builder.event; //todo
 
         ThreadPool thread = ThreadPool.getInstance();
-        Map router = new RequestMapper().parseAnnotation(event);
+        new RequestMapper().parseAnnotation(event);//todo:static?
         WebController controllers = null;
         try {
             controllers = (WebController) event.newInstance();//反射加载

@@ -13,26 +13,34 @@ class RequestMapper {
     //todo:
     //加入解析文件路径的方法
 
-    Map parseAnnotation(Class<?> clazz) {
-        Map<String, Method> map = new HashMap<>();
+    void parseAnnotation(Class<?> clazz) {
         Method[] method = clazz.getDeclaredMethods();
-        for (Method m  : method) {
-            if (m.isAnnotationPresent(RequestMapping.class)) {
-                RequestMapping requestMapping =  m.getAnnotation(RequestMapping.class);
-                String path = requestMapping.value();
-                RequestMethod requestMethod = requestMapping.method();
-                map.put(path,m); //创建映射关联
-                System.out.println(m.getName() + " " + path + " " + requestMethod.toString() );
-                /*todo:
-                * 映射结构:
-                *
-                *
-                * */
+        Router router = Router.getInstance();
+        /*
+        Object object = null;
+        try {
+            object = router.putInstance(clazz.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        */
+        Object object = router.putInstance(clazz);
+        if(object != null){
+            for (Method m  : method) {
+                if (m.isAnnotationPresent(RequestMapping.class)) {
+                    RequestMapping requestMapping =  m.getAnnotation(RequestMapping.class);
+                    URI uri = new URI(requestMapping.value());
+                    RequestMethod requestMethod = requestMapping.method();
+                    router.putMethod(uri,requestMethod,new Object[]{object,m});
+                    System.out.println(m.getName() + " " + uri.getFullString() + " " + requestMethod.toString() );
+                    /*todo:
+                     * 映射结构:
+                     *
+                     *
+                     * */
+                }
             }
         }
         //TODO：正则解析形式
-        //留坑，静态文件传输映射表还没有创建
-        //静态文件使用Nginx完成传输
-        return map;
     }
 }

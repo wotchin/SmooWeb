@@ -11,13 +11,13 @@ import java.util.TimeZone;
  * */
 public class ResponseHeader extends HashMap<String,String>{
 
-    private StateCode.KeyAndValuePair status = null;
+    private StatusCode.KeyAndValuePair status = null;
 
     ResponseHeader(){
         super(8);
         put("Server","SmooWeb/1.0");
         //todo: Keep-Alive
-        put("Connection","closed");
+        put("Connection","close");
         Date date = Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime();
         //todo:format?
         put("Date",date.toString());
@@ -35,12 +35,12 @@ public class ResponseHeader extends HashMap<String,String>{
         put("Content-Type",type.toString());
     }
 
-    public void setStateCode(StateCode statecode){
+    public void setStateCode(StatusCode statecode){
         status = statecode.getStateCode();
     }
 
     public void setStateCode(int stateCode){
-        status = StateCode.search(stateCode);
+        status = StatusCode.search(stateCode);
     }
 
     @Override
