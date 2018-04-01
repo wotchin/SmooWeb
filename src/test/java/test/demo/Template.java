@@ -8,6 +8,7 @@ import com.github.wotchin.request.RequestMethod;
 import com.github.wotchin.response.Response;
 
 import java.util.Date;
+import java.util.Map;
 
 @Controller
 public class Template implements WebController {
@@ -30,7 +31,9 @@ public class Template implements WebController {
     @RequestMapping(value = "/getData",method = RequestMethod.POST)
     public void getData(Request req,Response res){
 
-        req.getBody().getBytes();
-        res.end(String.valueOf(System.currentTimeMillis()));
+        System.out.println(req.getHeader().toString());
+        Map<String,String> value = req.getBody().getValue();
+        System.out.println(value);
+        res.end(value.get("d"));
     }
 }

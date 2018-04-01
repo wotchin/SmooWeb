@@ -7,6 +7,7 @@ import com.github.wotchin.response.Response;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.Map;
 
 class HttpHandler {
@@ -17,20 +18,15 @@ class HttpHandler {
         try {
 //            BIO
             //此处有坑，留坑待补充完善，阻塞问题。
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String buff;
-            StringBuilder sb = new StringBuilder();
-            while ((buff = reader.readLine()) != null){
-                if(buff.length() > 0){
-                    sb.append(buff);
-                    sb.append("\n");
-                }else{
-                    break;
-                }
+            InputStream in = socket.getInputStream();
+            byte []buf = new byte[1024];
+
+            int len = 0;
+            while ((len = in.read(buf,0,1024)) > 0){
+
             }
 
-
-            Request req = new Request(sb.toString(),socket.getInputStream());
+            Request req = new Request(sb.toString(),reader);
             Response res = new Response(socket.getOutputStream());
             RequestHeader header = req.getHeader();
 

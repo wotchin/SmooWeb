@@ -3,7 +3,7 @@ package com.github.wotchin.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public  class UrlUtils {
+public  class RequestUtils {
 
     private static String TruncateUrlPage(String strURL) {
         String strAllParam = null;
@@ -27,6 +27,9 @@ public  class UrlUtils {
     public static Map<String,String> parseQuery(String url){
         Map<String,String> map = new HashMap<>();
         String[] arrSplit=null;
+        if(url == null){
+            return null;
+        }
         String strUrlParam=TruncateUrlPage(url);
         if(strUrlParam==null)
         {

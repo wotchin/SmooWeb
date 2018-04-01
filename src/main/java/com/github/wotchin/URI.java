@@ -1,6 +1,6 @@
 package com.github.wotchin;
 
-import com.github.wotchin.utils.UrlUtils;
+import com.github.wotchin.utils.RequestUtils;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class URI {
 
 
     public Map<String,String> getQuery(){
-        return UrlUtils.parseQuery(raw);
+        return RequestUtils.parseQuery(raw);
     }
 
 
