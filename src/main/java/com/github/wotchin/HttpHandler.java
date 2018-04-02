@@ -8,6 +8,8 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 class HttpHandler {
@@ -19,12 +21,13 @@ class HttpHandler {
 //            BIO
             //此处有坑，留坑待补充完善，阻塞问题。
             InputStream in = socket.getInputStream();
-            byte []buf = new byte[1024];
-
-            int len = 0;
-            while ((len = in.read(buf,0,1024)) > 0){
-
+            List<Byte> buff = new LinkedList<>();
+            int val = 0;
+            while ((val = in.read()) > 0){
+                buff.add((byte)val);
             }
+            //todo: reader?
+            //是否应该用一个类包装这个socket
 
             Request req = new Request(sb.toString(),reader);
             Response res = new Response(socket.getOutputStream());
